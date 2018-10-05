@@ -6,6 +6,7 @@ import requests
 import re
 from requests.exceptions import RequestException
 
+# 获取第一页的信息
 def get_one_page(url):
     try:
         headers = {
@@ -18,7 +19,7 @@ def get_one_page(url):
         return None
     except RequestException:
         return None
-
+# 解析页面 这里使用的是正则表达式
 def parse_one_page(html):
     pattern = re.compile ('<dd>.*?board-index.*?>(\d+)</i>.*?data-src="(.*?)".*?name"><a' 
           + '.*?>(.*?)</a>.*?star">(.*?)</p>.*?releasetime">(.*?)</p>'
@@ -34,7 +35,7 @@ def parse_one_page(html):
                 'score': item[5].strip() + item[6].strip()
                 }
 
-    
+# 使用文件保存数据
 def write_to_file(content):
     with open('result.txt', 'a', encoding='utf-8') as f:
         f.write(json.dumps(content, ensure_ascii=False)+ '\n')
