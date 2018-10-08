@@ -19,7 +19,7 @@ def get_one_page(url):
         return None
     except RequestException:
         return None
-# 解析页面 这里使用的是正则表达式
+# 解析页面 这里使用的是正则表达式 正则表达式可维护性不高，如果页面发生变化，就会失效
 def parse_one_page(html):
     pattern = re.compile ('<dd>.*?board-index.*?>(\d+)</i>.*?data-src="(.*?)".*?name"><a' 
           + '.*?>(.*?)</a>.*?star">(.*?)</p>.*?releasetime">(.*?)</p>'
