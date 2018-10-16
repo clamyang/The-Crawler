@@ -1,7 +1,12 @@
 import requests
+import pymongo
 from pyquery import PyQuery as pq
 from urllib.parse import urlencode
 base_url = 'https://m.weibo.cn/api/container/getIndex?'
+
+client = pymongo.MongoClient()
+db = client.weibo
+collection = db.weibo
 
 headers = {
         'Host': 'm.weibo.cn',
@@ -15,7 +20,7 @@ def get_page(page):
             'containerid': '1076032830678474',
             'page': page
             }
-
+    # 使用urlencode() 序列化
     url = base_url + urlencode(params)
     try:
         response = requests.get(url, headers=headers)
@@ -24,11 +29,12 @@ def get_page(page):
     except resquests.ConnectionError as e:
         print('Error', e.args)
 
-def parse_page(json, page):
+
+def parse_page(json, page): # 这里传入page 是为了过滤第一页
     if json:
         items = json.get('data').get('cards')
         for index, item in enumerate(items):
-            if page == 1 and index == 1:
+            if  page == 1 and index == 1:
                 continue
             else: 
                 item = item.get('mblog')
@@ -40,9 +46,16 @@ def parse_page(json, page):
                 weibo['reposts'] = item.get('resposts_count')
                 yield weibo
 
+# 使用pymongo保存数据
+def save_to_mongo(result):
+    if collection.insert(result):
+        print('Saved to Mongo')
+
+
 if __name__ == '__main__':
-    for page in range(1, 11):
+    for page in range(1,11):
         json = get_page(page)
-        results = parse_page(*json)
+        results = parse_page(*json) # parse_page 返回一个元组
         for result in results:
             print(result)
+            save_to_mongo(result)
