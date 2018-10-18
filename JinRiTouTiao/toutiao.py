@@ -48,9 +48,10 @@ def get_images(json):
                         }
 
 def save_image(item):
+    #图片存储路径
     image_path = 'image' + os.path.sep + item.get('title')
     if not os.path.exists(image_path):
-        os.makedirs(image_path)
+        os.makedirs(image_path)  # 创建目录
 
     try:
         response = requests.get(item.get('image'))
