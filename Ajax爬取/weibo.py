@@ -34,8 +34,10 @@ def parse_page(json, page): # 这里传入page 是为了过滤第一页
     if json:
         items = json.get('data').get('cards')
         for index, item in enumerate(items):
+            # 跳过这一页 因为没有所需的内容
             if  page == 1 and index == 1:
                 continue
+
             else: 
                 item = item.get('mblog')
                 weibo = {}
