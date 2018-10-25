@@ -5,6 +5,15 @@ from urllib.parse import quote
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from pyquery import PyQuery as pq
+import pymongo
+
+MONGO_URL = 'localhost'
+MONGO_DB = 'taobao'
+MONGO_COLLECTION = 'products'
+
+client = pymongo.MongoClient(MONGO_URL)
+db = client[MONGO_DB]
+
 
 # 登录淘宝的时候，需要身份验证，用自己的手机淘宝扫码登录即可。
 browser = webdriver.Chrome()
@@ -53,12 +62,19 @@ def get_product():
                 'location': item.find('.location').text()
                 }
         print(product)
+        save_to_mongo(product)
 
+def save_to_mongo(result):
+    try:
+        if db[MONGO_COLLECTION].insert(result):
+            print('存储到MongoDB成功')
+        except Exception:
+            print('存储到MongoDB失败')
 
 max_page = 101
 
 def main():
-    for page in range(1, 6):
+    for page in range(1, max_page):
         get_page(page)
     browser.close()
 
