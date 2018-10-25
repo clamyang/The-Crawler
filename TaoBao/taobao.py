@@ -68,7 +68,7 @@ def save_to_mongo(result):
     try:
         if db[MONGO_COLLECTION].insert(result):
             print('存储到MongoDB成功')
-        except Exception:
+    except Exception:
             print('存储到MongoDB失败')
 
 max_page = 101
