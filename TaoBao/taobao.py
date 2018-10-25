@@ -10,7 +10,6 @@ import pymongo
 MONGO_URL = 'localhost'
 MONGO_DB = 'taobao'
 MONGO_COLLECTION = 'products'
-
 client = pymongo.MongoClient(MONGO_URL)
 db = client[MONGO_DB]
 
@@ -20,11 +19,9 @@ browser = webdriver.Chrome()
 wait = WebDriverWait(browser, 18)
 KEYWORD = 'iPad'
 
+
 def get_page(page):
     try:
-        url = 'https://s.taobao.com/search?q=' + quote(KEYWORD)
-        browser.get(url)
-
         if page > 1:       
             input = wait.until(
                     EC.presence_of_element_located((By.CSS_SELECTOR, '#mainsrp-pager div.form > input')))
@@ -74,6 +71,8 @@ def save_to_mongo(result):
 max_page = 101
 
 def main():
+    url = 'https://s.taobao.com/search?q=' + quote(KEYWORD)
+    browser.get(url)
     for page in range(1, max_page):
         get_page(page)
     browser.close()
