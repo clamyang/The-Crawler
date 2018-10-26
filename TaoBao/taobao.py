@@ -6,6 +6,7 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from pyquery import PyQuery as pq
 import pymongo
+import time
 
 MONGO_URL = 'localhost'
 MONGO_DB = 'taobao'
@@ -76,6 +77,8 @@ def main():
     browser.get(url)
     for page in range(1, max_page):
         get_page(page)
+        #添加等待时间，防止访问过于频繁导致的身分验证。
+        time.sleep(3)
     browser.close()
 
 if __name__ == '__main__':
