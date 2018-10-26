@@ -21,12 +21,13 @@ KEYWORD = 'iPad'
 
 
 def get_page(page):
+    print('正在爬取第%d页' % page)
     try:
         if page > 1:       
             input = wait.until(
                     EC.presence_of_element_located((By.CSS_SELECTOR, '#mainsrp-pager div.form > input')))
             button = wait.until(
-                    EC.element_to_be_clickable((By.CSS_SELECTOR, '#mainsrp-pager div.form')))
+                    EC.element_to_be_clickable((By.CSS_SELECTOR, '#mainsrp-pager div.form > span.btn.J_Submit')))
             #等待以上两个节点加载出来
             input.clear()
             input.send_keys(page)
