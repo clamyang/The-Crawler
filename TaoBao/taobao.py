@@ -4,8 +4,7 @@ from selenium.common.exceptions import TimeoutException, NoSuchElementException
 from urllib.parse import quote
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from pyquery import PyQuery as pq
-import pymongo
+from pyquery import PyQuery as pq import pymongo
 import time
 
 MONGO_URL = 'localhost'
