@@ -45,7 +45,6 @@ def get_page(page):
         get_page(page)
         print('正在重试')
 
-
 def get_product():
     html = browser.page_source
     doc = pq(html)
@@ -82,5 +81,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-        
-
