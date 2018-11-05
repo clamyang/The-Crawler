@@ -39,11 +39,19 @@ class Bilibili():
         return (top, bottom, left, right)
         
     def get_screenshot(self):
+        """
+        :return : 网页截图
+        """
+        # 这里使用 get_screenshot_as_png() 方法获取到的是图片的二进制形式
         screenshot = self.browser.get_screenshot_as_png()
+        # 使用 io 的 BytesIO() 方法，将二进制的形式转换成图片
         screenshot = Image.open(BytesIO(screenshot))
         return screenshot
 
     def get_image(self, name='captcha.png'):
+        """
+        :return : 验证码图片
+        """
         top, bottom, left, right = self.get_position()
         print('验证码的位置是', top, bottom, left, right)
         screenshot = self.get_screenshot()
@@ -52,6 +60,11 @@ class Bilibili():
         return captcha
     
     def is_pixel_equal(self, image1, image2, x, y):
+        """
+        :param image1: 不带缺口的图片
+        :param image2: 带缺口的图片
+        :return :
+        """
         pixel1 = image1.load()[x, y]
         pixel2 = image2.load()[x, y]
         threshold = 60
